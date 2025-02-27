@@ -2,14 +2,63 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Liste des tâches</title>
+    <title>Commande de glaces</title>
+    <script defer>
+        // Fonction pour supprimer une commande
+        async function supprimerCommande(id) {
+            const response = await fetch(`/commandes/supprimer/${id}`, { method: 'POST' });
+            if (response.ok) {
+                document.getElementById(`commande-${id}`).remove();
+            } else {
+                alert('Erreur lors de la suppression');
+            }
+        }
+    </script>
 </head>
+
 <body>
-    <h1>Liste des tâches</h1>
-    <form action="/taches/ajout" method="POST">
-        <input type="text" name="titre" placeholder="Titre">
-        <textarea name="description" placeholder="Description"></textarea>
+    <h1>Commande de glaces</h1>
+
+    <!-- Formulaire d'ajout de commande -->
+    <form action="/commandes/ajout" method="POST">
+        <label for="glace">Goût :</label>
+        <select name="glace" required>
+            <% glaces.forEach(glace => { %>
+                <option value="<%= glace._id %>"><%= glace.gout %> - <%= glace.taille %></option>
+            <% }); %>
+        </select>
+
+        <label for="client">Client :</label>
+        <select name="client" required>
+            <% clients.forEach(client => { %>
+                <option value="<%= client._id %>"><%= client.nom %> <%= client.prenom %></option>
+            <% }); %>
+        </select>
+
+        <label for="preparateur">Préparateur :</label>
+        <select name="preparateur" required>
+            <% preparateurs.forEach(preparateur => { %>
+                <option value="<%= preparateur._id %>"><%= preparateur.nom %> <%= preparateur.prenom %></option>
+            <% }); %>
+        </select>
+
         <button type="submit">Ajouter</button>
     </form>
+
+    <!-- Affichage des commandes -->
+    <h2>Liste des commandes</h2>
+    <ul>
+        <% if (commandes.length === 0) { %>
+            <p>Aucune commande à afficher.</p>
+        <% } else { %>
+            <% commandes.forEach(commande => { %>
+                <li id="commande-<%= commande._id %>">
+                    <%= commande.client.nom %> a commandé une glace <%= commande.glace.gout %> (<%= commande.glace.taille %>), préparée par <%= commande.preparateur.nom %>.
+                    <button onclick="supprimerCommande('<%= commande._id %>')">Supprimer</button>
+                </li>
+            <% }); %>
+        <% } %>
+    </ul>
+
 </body>
 </html>
