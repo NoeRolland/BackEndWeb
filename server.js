@@ -26,7 +26,10 @@ mongoose.connect(process.env.MONGO_URI)
 
 // Définition des routes
 // Les routes liées aux tâches sont définies dans le fichier ./routes/taches
-app.use('/taches', require('./routes/taches'));
+app.use('/commandes', require('./routes/commandes'));
+app.use('/glaces', require('./routes/glaces'));
+app.use('/clients', require('./routes/clients'));
+app.use('/preparateurs', require('./routes/preparateurs'));
 
 // Définition de la route de la page d'accueil
 app.get('/', (req, res) => {
