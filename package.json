@@ -1,7 +1,6 @@
 {
   "name": "glace",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -9,10 +8,7 @@
   },
   "author": "",
   "license": "ISC",
-<<<<<<< HEAD
   "description": "Repos for backEnd project in study",
-=======
->>>>>>> be828de701b6aadf49def40663349d369330e077
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
@@ -20,7 +16,6 @@
     "mongoose": "^8.11.0"
   },
   "devDependencies": {
-<<<<<<< HEAD
     "nodemon": "^3.1.9"
   },
   "repository": {
@@ -31,10 +26,8 @@
   "bugs": {
     "url": "https://github.com/NoeRolland/BackEndWeb/issues"
   },
-  "homepage": "https://github.com/NoeRolland/BackEndWeb#readme"
-=======
-    "jest": "^29.7.0",
-    "supertest": "^7.0.0"
+  "homepage": "https://github.com/NoeRolland/BackEndWeb#readme",
+  "jest": "^29.7.0",
+  "supertest": "^7.0.0"
   }
->>>>>>> be828de701b6aadf49def40663349d369330e077
-}
+
