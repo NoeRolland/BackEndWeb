@@ -1,8 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const PreparateurSchema = new mongoose.Schema({
-    nom: { type: String, required: true },
-    prenom: { type: String, required: true }
+const PreparateurSchema = new mongoose.Schema({ 
+    nom: String,
+    prenom: String
 });
 
-module.exports = mongoose.model('Preparateur', PreparateurSchema);
+module.exports = mongoose.model("Preparateur", PreparateurSchema);

@@ -1,41 +1,26 @@
-// Chargement des variables d'environnement depuis un fichier .env que vous devez créer dans le dossier de votre projet et y placer le lien (appelé MONGO_URI ici) vers votre base de donnée
-require('dotenv').config();
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const clientRoutes = require("./routes/ClientRoutes");
+const glaceRoutes = require("./routes/GlaceRoutes");
+const preparateurRoutes = require("./routes/PreparateurRoutes");
+const commandeRoutes = require("./routes/CommandeRoutes");
+const dotenv = require('dotenv');
 
-// Importation des modules nécessaires  biblioteques
-const express = require('express');       // Framework pour créer le serveur
-const mongoose = require('mongoose');    // Librairie pour interagir avec la base de donnée MongoDB
-const path = require('path');            // Module pour manipuler les chemins des fichiers
+dotenv.config({ path: '.env.local' });
 
-// Création de l'application Express
 const app = express();
+app.use(cors());
 
-// Middleware pour analyser les données des requêtes POST
-app.use(express.urlencoded({ extended: true })); // Analyse les données des formulaires
-app.use(express.json()); // Analyse les données JSON
-
-// Middleware pour servir des fichiers statiques (CSS, JS, images, etc.)
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Configuration du moteur de rendu pour générer des pages HTML dynamiques
-app.set('view engine', 'ejs'); // Utilisation de EJS comme moteur de rendu
-
-// Connexion à la base de données MongoDB Atlas
 mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('MongoDB Atlas connecté')) // Succès de la connexion
-    .catch(err => console.log('Erreur de connexion MongoDB:', err)); // Gestion des erreurs
+    .then(() => console.log("Connecté à MongoDB"))
+    .catch(err => console.error("Erreur de connexion à MongoDB:", err));
 
-// Définition des routes
-// Les routes liées aux tâches sont définies dans le fichier ./routes/taches
-app.use('/commandes', require('./routes/commandes'));
-app.use('/glaces', require('./routes/glaces'));
-app.use('/clients', require('./routes/clients'));
-app.use('/preparateurs', require('./routes/preparateurs'));
+app.use(express.json());
 
-// Définition de la route de la page d'accueil
-app.get('/', (req, res) => {
-    res.render('index'); // Rendu de la vue 'index.ejs'
-});
+app.use("/clients", clientRoutes);
+app.use("/glaces", glaceRoutes);
+app.use("/preparateurs", preparateurRoutes);
+app.use("/commandes", commandeRoutes);
 
-// Démarrage du serveur sur un port spécifique
-const PORT = process.env.PORT || 3000; // Le port est défini dans le fichier .env ou par défaut à 3000
-app.listen(PORT, () => console.log(`Serveur démarré sur http://localhost:${PORT}`));
+app.listen(process.env.PORT, () => console.log(`Serveur démarré sur http://${process.env.IP_ADDRESS}:${process.env.PORT}`));
