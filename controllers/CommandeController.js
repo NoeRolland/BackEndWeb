@@ -3,10 +3,6 @@ const Commande = require("../models/Commande");
 exports.getAll = async (req, res) => {
     try {
         const commandes = await Commande.find()
-            .populate("clientId")
-            .populate("glaceId")
-            .populate("preparateurId");
-
         res.status(200).json(commandes);
     } catch (err) {
         console.error("Erreur GET /commandes :", err);
@@ -17,9 +13,6 @@ exports.getAll = async (req, res) => {
 exports.getById = async (req, res) => {
     try {
         const commande = await Commande.findById(req.params.id)
-            .populate("clientId")
-            .populate("glaceId")
-            .populate("preparateurId");
 
         if (!commande) {
             return res.status(404).json({ message: "Commande non trouvée" });
@@ -45,9 +38,6 @@ exports.post = async (req, res) => {
 exports.put = async (req, res) => {
     try {
         const commande = await Commande.findById(req.params.id)
-            .populate("clientId")
-            .populate("glaceId")
-            .populate("preparateurId");
 
         if (!commande) {
             return res.status(404).json({ message: "Commande non trouvée" });
@@ -57,9 +47,7 @@ exports.put = async (req, res) => {
             req.params.id,
             req.body,
             { new: true }
-        ).populate("clientId")
-         .populate("glaceId")
-         .populate("preparateurId");
+        )
 
         res.status(201).json(updatedCommande);
     } catch (err) {
